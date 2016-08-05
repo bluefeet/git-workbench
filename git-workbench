@@ -4,9 +4,9 @@ set -euo pipefail
 WB_PATH=$(dirname "$0")
 
 if [[ $# > 0 ]] && [[ -x "$WB_PATH/git-workbench-$1" ]]; then
-  COMMAND=$1
-  shift
-  exec "$WB_PATH/git-workbench-$COMMAND" "$@"
+    COMMAND=$1
+    shift
+    exec "$WB_PATH/git-workbench-$COMMAND" "$@"
 fi
 
 $WB_PATH/git-workbench-init

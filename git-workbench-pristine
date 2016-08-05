@@ -4,25 +4,25 @@ set -euo pipefail
 WB_PATH=$(dirname "$0")
 
 (
-  $WB_PATH/git-workbench fetch owner && \
-  $WB_PATH/git-workbench reset --hard HEAD && \
-  $WB_PATH/git-workbench clean -fdx && \
-  $WB_PATH/git-workbench branch workbench-dummy && \
-  $WB_PATH/git-workbench checkout workbench-dummy && \
-  $WB_PATH/git-workbench branch -D master && \
-  $WB_PATH/git-workbench checkout -b master --track owner/master && \
-  (
-    for BRANCH in $($WB_PATH/git-workbench for-each-ref --format='%(refname:short)' refs/heads/); do
-      [ "$BRANCH" != "master" ] && $WB_PATH/git-workbench branch -D $BRANCH
-    done
-  )
+    $WB_PATH/git-workbench fetch owner && \
+    $WB_PATH/git-workbench reset --hard HEAD && \
+    $WB_PATH/git-workbench clean -fdx && \
+    $WB_PATH/git-workbench branch workbench-dummy && \
+    $WB_PATH/git-workbench checkout workbench-dummy && \
+    $WB_PATH/git-workbench branch -D master && \
+    $WB_PATH/git-workbench checkout -b master --track owner/master && \
+    (
+        for BRANCH in $($WB_PATH/git-workbench for-each-ref --format='%(refname:short)' refs/heads/); do
+            [ "$BRANCH" != "master" ] && $WB_PATH/git-workbench branch -D $BRANCH
+        done
+    )
 ) || (
-  RED='\033[0;31m'
-  NC='\033[0m'
+    RED='\033[0;31m'
+    NC='\033[0m'
 
-  echo -e ${RED}WARNING
-  echo -e There was a problem running git workbench pristine, please report the above output. && \
-  echo -e In the mean time I will now fix your issue.$NC && \
-  $WB_PATH/git-workbench remove && \
-  $WB_PATH/git-workbench init
+    echo -e ${RED}WARNING
+    echo -e There was a problem running git workbench pristine, please report the above output. && \
+    echo -e In the mean time I will now fix your issue.$NC && \
+    $WB_PATH/git-workbench remove && \
+    $WB_PATH/git-workbench init
 )

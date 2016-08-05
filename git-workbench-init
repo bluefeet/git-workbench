@@ -6,30 +6,30 @@ SOURCE_WORK_TREE=$(git rev-parse --show-toplevel);
 TARGET_WORK_TREE=$($WB_PATH/git-workbench dir)
 
 if [ ! -d "$TARGET_WORK_TREE/.git" ]; then
-  >&2 echo Initializing Git repository in $TARGET_WORK_TREE
-  rm -rf $TARGET_WORK_TREE
-  git clone \
-    --quiet \
-    --shared \
-    --origin owner \
-    $SOURCE_WORK_TREE $TARGET_WORK_TREE
+    >&2 echo Initializing Git repository in $TARGET_WORK_TREE
+    rm -rf $TARGET_WORK_TREE
+    git clone \
+        --quiet \
+        --shared \
+        --origin owner \
+        $SOURCE_WORK_TREE $TARGET_WORK_TREE
 
-  >&2 echo Add workbench remote to worker repository
-  ( git remote | grep -q ^workbench$ ) && git remote rm workbench
-  git remote add workbench $TARGET_WORK_TREE
+    >&2 echo Add workbench remote to worker repository
+    ( git remote | grep -q ^workbench$ ) && git remote rm workbench
+    git remote add workbench $TARGET_WORK_TREE
 
-  >&2 echo Importing user configuration to workbench repository
-  SOURCE_USER_NAME=$(git config --local user.name || echo)
-  SOURCE_USER_EMAIL=$(git config --local user.email || echo)
-  [ "$SOURCE_USER_NAME" != "" ] && $WB_PATH/git-workbench config --local user.name "$SOURCE_USER_NAME"
-  [ "$SOURCE_USER_EMAIL" != "" ] && $WB_PATH/git-workbench config --local user.email "$SOURCE_USER_EMAIL"
+    >&2 echo Importing user configuration to workbench repository
+    SOURCE_USER_NAME=$(git config --local user.name || echo)
+    SOURCE_USER_EMAIL=$(git config --local user.email || echo)
+    [ "$SOURCE_USER_NAME" != "" ] && $WB_PATH/git-workbench config --local user.name "$SOURCE_USER_NAME"
+    [ "$SOURCE_USER_EMAIL" != "" ] && $WB_PATH/git-workbench config --local user.email "$SOURCE_USER_EMAIL"
 
-  >&2 echo Importing hooks to workbench repository
-  rm -rf $TARGET_WORK_TREE/.git/hooks
-  ln -s $SOURCE_WORK_TREE/.git/hooks $TARGET_WORK_TREE/.git/hooks
+    >&2 echo Importing hooks to workbench repository
+    rm -rf $TARGET_WORK_TREE/.git/hooks
+    ln -s $SOURCE_WORK_TREE/.git/hooks $TARGET_WORK_TREE/.git/hooks
 
-  >&2 echo Importing remotes to workbench repository
-  for REMOTE in $(git remote | grep -v ^workbench$ | grep -v ^worker$); do
-    $WB_PATH/git-workbench remote add $REMOTE $(git config --local remote.$REMOTE.url)
-  done
+    >&2 echo Importing remotes to workbench repository
+    for REMOTE in $(git remote | grep -v ^workbench$ | grep -v ^worker$); do
+        $WB_PATH/git-workbench remote add $REMOTE $(git config --local remote.$REMOTE.url)
+    done
 fi
