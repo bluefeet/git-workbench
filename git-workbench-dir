@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+
+GIT_WORK_TREE=$(git rev-parse --show-toplevel);
+
+echo $GIT_WORK_TREE/.git/workbench
