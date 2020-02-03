@@ -1,0 +1,5 @@
+0.0.1
+
+ - The pristine command now does a simple remove & init.
+ - The init command now fails if already initialized.
+

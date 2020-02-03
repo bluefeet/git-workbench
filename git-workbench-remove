@@ -2,8 +2,9 @@
 set -euo pipefail
 
 WB_PATH=$(dirname "$0")
-GIT_WORK_TREE=$($WB_PATH/git-workbench dir)
+GIT_WORK_TREE=$($WB_PATH/git-workbench-dir)
 
->&2 echo Removing Git repository in $GIT_WORK_TREE
-
-exec rm -rf $GIT_WORK_TREE
+if [ -d "$GIT_WORK_TREE" ]; then
+  >&2 echo Removing Git repository in $GIT_WORK_TREE
+  exec rm -rf $GIT_WORK_TREE
+fi

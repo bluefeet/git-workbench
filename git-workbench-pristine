@@ -3,5 +3,5 @@ set -euo pipefail
 
 WB_PATH=$(dirname "$0")
 
-$WB_PATH/git-workbench remove && \
-$WB_PATH/git-workbench init
+$WB_PATH/git-workbench-remove && \
+$WB_PATH/git-workbench-init
